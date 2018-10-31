@@ -58,14 +58,14 @@ class Users {
        return false;
     }
     
-    // function logger($login, $password) {
-    //      // query verifica se o usuario existe com esssa senha
-    //     $query = " select * from usuario where login = '".$login."' and senha = '".$password."' ";
-    //     // prepare query statement
-    //     $stmt = $this->conn->prepare($query);
-    //     // execute query
-    //     $stmt->execute();
-    //     return $stmt;
-    //  }
+     function logger($login, $password) {
+          // query verifica se o usuario existe com esssa senha
+         $query = " select * from users where email = '".$login."' and password = '".$password."' ";
+         // prepare query statement
+         $stmt = $this->conn->prepare($query);
+         // execute query
+         $stmt->execute();
+         return $stmt;
+    }
 
 }
