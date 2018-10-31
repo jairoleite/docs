@@ -27,4 +27,13 @@ export function toTree(categories, tree) {
     return tree 
 }
 
-export default { baseApiUrl, showError, toTree }
+export function isEmpty(obj) {
+    for(var prop in obj) {
+      if(obj.hasOwnProperty(prop))
+        return false;
+    }
+    return true;
+}
+
+
+export default { baseApiUrl, showError, toTree, isEmpty }
