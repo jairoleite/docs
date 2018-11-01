@@ -13,7 +13,7 @@
          <router-link to="/admin">
            <i class="fa fa-cogs"></i>Administração
          </router-link>
-         <a href>
+         <a href="#" @click="logout">
            <i class="fa fa-sign-out"></i>Sair
           </a>
      </div>
@@ -27,7 +27,14 @@ import Gravatar from "vue-gravatar";
 export default {
   name: "UserDropDoewn",
   components: { Gravatar },
-  computed: mapState(["user"])
+  computed: mapState(["user"]),
+  methods: {
+    logout() {
+      //console.log("funciona")
+       this.$store.commit('setUser', null)
+       this.$router.push({ path: 'auth' })
+    }
+  }
 };
 </script>
 

@@ -13,33 +13,20 @@ include_once('../../objects/users.php');
 
 // recebe nome da categoria
 $_POST = json_decode(file_get_contents("php://input"),true);
-$email = $_POST['email'];
-$password = $_POST['password'];
+$token = $_POST['token'];
 
-if(!isset($email) || !isset($password)) {
-    http_response_code(200);
-    echo json_encode(
-        array(
-            "message" => "O email e a senha não pode ser vazios",
-            "error" => true)
-        );
-  exit();  
-}
-
-$password = md5($password);
 
 $database = new Database();
 $db = $database->getConnection();
 
 $user = new Users($db);
 
-$stmt = $user->logger($email, $password);
+$stmt = $user->checkToken($token);
 $num = $stmt->rowCount();
 
 http_response_code(200);
 // se existir algum resultado mostra
 if($num > 0) {
-
     $user = array();
     $user["user"] = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -59,12 +46,7 @@ if($num > 0) {
     echo json_encode($user);
 }
 else {
-    http_response_code(200);
-    echo json_encode(
-        array(
-            "message" => "Ocorreu um erro ao tentar logar.",
-            "error" => true)
-        );
+    echo json_encode(array("checkToken" => false));
 }  
 
 ?>
