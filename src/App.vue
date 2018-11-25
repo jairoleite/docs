@@ -1,73 +1,69 @@
 <template>
-	<div id="app" :class="{'hide-menu': !isMenuVisible || !user}">
-		<Header title="Artigos de Tecnologia" 
-			:hideToggle="!user"
-			:hideUserDropdown="!user" />
-		<Menu v-if="user" />
-		<Loading v-if="validating" />
-		<Content v-else />
-		<Footer />
+	<div>
+		<div v-if="user" id="app" :class="{'hide-menu': !isMenuVisible}">
+      <Header title="Artigos de Tecnologia" />
+      <Menu/>
+      <Content />
+      <Footer />
+    </div>
+    <div v-else class="login">
+      <div v-if="loading" class="load-position">
+           <img src="@/assets/load-boll.gif" alt="Loading">
+      </div>
+      <div v-else>
+        <Auth />
+      </div>
+    </div>
 	</div>
 </template>
 
 <script>
-import axios from "axios";
-import { baseApiUrl } from "@/global";
-import { mapState } from "vuex";
-
+//compoenetes
 import Header from "@/components/template/Header";
 import Menu from "@/components/template/Menu";
 import Content from "@/components/template/Content";
 import Footer from "@/components/template/Footer";
-import Loading from "@/components/template/Loading";
+import Auth from "@/components/auth/Auth";
+//global js
+import { baseApiUrl} from '@/global'
+//objeto geral
+import { mapState } from "vuex";
+//cliente http
+import axios from 'axios'
 
 export default {
   name: "App",
-  components: { Header, Menu, Content, Footer, Loading },
-  computed: mapState(["isMenuVisible", "user"]),
-  data: function() {
+  components: { Header, Menu, Content, Footer, Auth },
+  computed: mapState(["isMenuVisible","user"]),
+  data() {
     return {
-      validating: false
-    };
+      loading: false
+    }
   },
-  methods: {
+   methods: {
     async logger() {
-     
-      this.validating = true;
+      this.loading = true; 
       const json = localStorage.getItem('userKey')
 			const token = JSON.parse(json)
-      this.$store.commit('setUser', null)
-      //console.log(token)
+      this.$store.commit('SET_USER', null);
+      if(!token) {
+          this.$router.push({ name: "/" });
+          this.loading = false; 
+			 	  return;
+      }
       
-			 if(!token) {
-			 	  this.validating = false
-			 	  this.$router.push({ name: 'auth' });
-			 	  return
-			 }
-
-
       const url = `${baseApiUrl}/user/logger.1.php`;
       axios.post(url, {token: token}).then(resp => {
-        //console.log(resp.data.user[0])
+         this.loading = false; 
          if (!resp.data.user[0]) {
-           //this.validating = false;
-           this.$router.push({ name: "auth" });
            return;
          } else {
-           //console.log(resp.data.user[0])
-            this.$store.commit("setUser", resp.data.user[0]);
-           if (this.$mq === "xs" || this.$mq === "sm") {
-             this.$store.commit("toggleMenu", false);
-           }
-            this.$router.push({ name: "/" });
-        }
-        this.validating = false
-
-
+            this.$store.commit("SET_USER", resp.data.user[0]);
+         }
       });
     }
   },
-  created() {
+  mounted() {
     this.logger();
   }
 };
@@ -101,5 +97,10 @@ body {
     "header header"
     "content content"
     "footer footer";
+}
+
+.load-position {
+  text-align: center;
+  margin-top: 50px;
 }
 </style>

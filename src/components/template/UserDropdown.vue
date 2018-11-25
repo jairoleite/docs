@@ -11,30 +11,40 @@
      </div>
      <div class="user-dropdown-content">
          <router-link to="/admin">
-           <i class="fa fa-cogs"></i>Administração
+           <i class="fa fa-cogs"></i> Administração
+         </router-link>
+         <router-link to="/home">
+           <i class="fa fa-tachometer"></i> DashBoard
          </router-link>
          <a href="#" @click="logout">
-           <i class="fa fa-sign-out"></i>Sair
-          </a>
+           <i class="fa fa-sign-out"></i> Sair
+         </a>
      </div>
    </div>    
 </template>
 
 <script>
-import { mapState } from "vuex";
 import Gravatar from "vue-gravatar";
 
 export default {
   name: "UserDropDoewn",
   components: { Gravatar },
-  computed: mapState(["user"]),
+  data() {
+    return {
+      user: {}
+    }
+  },
   methods: {
     logout() {
-      //console.log("funciona")
-       this.$store.commit('setUser', null)
-       this.$router.push({ path: 'auth' })
+       this.$store.commit('SET_USER', null);
+       localStorage.setItem('userKey', null);
+       this.$router.push({ path: 'auth' });
     }
+  },
+  mounted() {
+    this.user = this.$store.state.user;
   }
+
 };
 </script>
 
@@ -67,38 +77,37 @@ export default {
 }
 
 .user-dropdown-content {
-    position: absolute;
-    right: 0px;
-    background-color: #f9f9f9;
-    min-width: 170px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    z-index: 1;
+  position: absolute;
+  right: 0px;
+  background-color: #f9f9f9;
+  min-width: 170px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  z-index: 1;
 
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear;
- }
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
 
- .user-dropdown:hover .user-dropdown-content {
-     visibility: visible;
-     opacity: 1;
- }
+.user-dropdown:hover .user-dropdown-content {
+  visibility: visible;
+  opacity: 1;
+}
 
- .user-dropdown-content a {
-     text-decoration: none;
-     color: #000;
-     padding: 10px;
- }
+.user-dropdown-content a {
+  text-decoration: none;
+  color: #000;
+  padding: 10px;
+}
 
- .user-dropdown-content  a:hover {
-     text-decoration: none;
-     color:#000;
-     background-color: #EDEDED;
- }
-
+.user-dropdown-content a:hover {
+  text-decoration: none;
+  color: #000;
+  background-color: #ededed;
+}
 </style>

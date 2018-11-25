@@ -25,7 +25,6 @@ import PageTitle from '../template/PageTitle'
 import ArticleAdmin from './ArticleAdmin'
 import CategoryAdmin from './CategoryAdmin'
 import UserAdmin from './UserAdmin'
-import { mapState } from "vuex";
 
 export default {
     name: 'AdminPages',
@@ -34,5 +33,4 @@ export default {
 </script>
 
 <style>
-
 </style>

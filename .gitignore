@@ -2,7 +2,7 @@
 node_modules
 /dist
 
-database.php
+/backend/config/database.php
 
 # local env files
 .env.local
