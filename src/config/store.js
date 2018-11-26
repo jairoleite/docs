@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: { name: "jairo.Leite", email: "jairomakay@gmail.com", isAdmin: true },
+    user: {},
     isMenuVisible: true
   },
   mutations: {

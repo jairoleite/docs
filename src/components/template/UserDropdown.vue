@@ -1,26 +1,25 @@
 
 <template>
-   <div class="user-dropdown">
-     
-     <div class="user-button">
-         <span class="d-none d-sm-block">{{user.name}}</span>
-         <div  class="user-dropdown-img">
-             <Gravatar :email="user.email" alt="User" />
-         </div>
-         <i class="fa fa-angle-down"></i>
-     </div>
-     <div class="user-dropdown-content">
-         <router-link to="/admin">
-           <i class="fa fa-cogs"></i> Administração
-         </router-link>
-         <router-link to="/home">
-           <i class="fa fa-tachometer"></i> DashBoard
-         </router-link>
-         <a href="#" @click="logout">
-           <i class="fa fa-sign-out"></i> Sair
-         </a>
-     </div>
-   </div>    
+  <div class="user-dropdown">
+    <div class="user-button">
+      <span class="d-none d-sm-block">{{user.name}}</span>
+      <div class="user-dropdown-img">
+        <Gravatar :email="user.email" alt="User"/>
+      </div>
+      <i class="fa fa-angle-down"></i>
+    </div>
+    <div class="user-dropdown-content">
+      <router-link v-if="user.admin == 1" to="/admin">
+        <i class="fa fa-cogs"></i> Administração
+      </router-link>
+      <router-link to="/home">
+        <i class="fa fa-tachometer"></i> DashBoard
+      </router-link>
+      <a href="#" @click="logout">
+        <i class="fa fa-sign-out"></i> Sair
+      </a>
+    </div>
+  </div>
 </template>
 
 <script>

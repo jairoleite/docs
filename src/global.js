@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 //caminho teste
-export const baseApiUrl = "http://localhost/backend/rest";
+export const baseApiUrl = "../../backend/rest";
 
 export function showError(e) {
   if (e && e.response && e.response.data) {

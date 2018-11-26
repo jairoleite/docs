@@ -1,20 +1,20 @@
 <template>
-	<div>
-		<div v-if="user" id="app" :class="{'hide-menu': !isMenuVisible}">
-      <Header title="Artigos de Tecnologia" />
+  <div>
+    <div v-if="user" id="app" :class="{'hide-menu': !isMenuVisible}">
+      <Header title="Artigos de Tecnologia"/>
       <Menu/>
-      <Content />
-      <Footer />
+      <Content/>
+      <Footer/>
     </div>
     <div v-else class="login">
       <div v-if="loading" class="load-position">
-           <img src="@/assets/load-boll.gif" alt="Loading">
+        <img src="@/assets/load-boll.gif" alt="Loading">
       </div>
       <div v-else>
-        <Auth />
+        <Auth/>
       </div>
     </div>
-	</div>
+  </div>
 </template>
 
 <script>
