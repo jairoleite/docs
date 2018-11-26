@@ -11,9 +11,9 @@
                     <b-tab title="Categorias">
                         <CategoryAdmin />
                     </b-tab>
-                    <b-tab title="Usuários">
+                    <!-- <b-tab title="Usuários">
                         <UserAdmin />
-                    </b-tab>
+                    </b-tab> -->
                 </b-tabs>
             </b-card>
         </div>

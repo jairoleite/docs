@@ -44,6 +44,10 @@
             <b-button class="ml-2" @click="reset">Cancelar</b-button>
         </b-form>
         <hr>
+       
+       <div v-if="loading" class="load-position">
+           <img src="@/assets/load-boll.gif" alt="Loading">
+       </div>
         
         <b-table hover striped :items="articles" :fields="fields">
             <template slot="actions" slot-scope="data">
@@ -70,6 +74,7 @@ export default {
   components: { VueEditor },
   data: function() {
     return {
+      loading: false,
       mode: "save",
       article: {},
       articles: [],
@@ -109,7 +114,7 @@ export default {
 
     removeArticle(article) {
       const url = `${baseApiUrl}/article/remove.php`;
-
+      this.loading = true; 
       axios
         .post(url, { id: article.id })
         .then(resp => {
@@ -119,6 +124,7 @@ export default {
           } else {
             showError({ msg: resp.data.message });
           }
+          this.loading = false;
         })
         .catch(showError);
     },
@@ -162,7 +168,7 @@ export default {
       }
 
       const url = `${baseApiUrl}/article/save.php`;
-      
+      this.loading = true;
       axios
         .post(url, this.article)
         .then(resp => {
@@ -172,6 +178,7 @@ export default {
           } else {
             showError({ msg: resp.data.message });
           }
+          this.loading = false;
         })
         .catch(showError);
     }
@@ -195,4 +202,11 @@ export default {
 </script>
 
 <style>
+.load-position {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
 </style>

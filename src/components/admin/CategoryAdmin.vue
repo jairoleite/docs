@@ -1,7 +1,9 @@
 
 <template>
     <div class="category-admin">
-      
+      <div v-if="loading" class="load-position">
+           <img src="@/assets/load-boll.gif" alt="Loading">
+      </div>
       <b-form>
           <input id="category-id" type="hidden" v-model="category.id"/>
           <b-row>
@@ -45,6 +47,7 @@ export default {
   name: "CategoryAdmin",
   data: function() {
     return {
+      loading: false,
       category: {},
       categories: [],
       categoriesParents: [],
@@ -66,7 +69,6 @@ export default {
       const url = `${baseApiUrl}/category/listAllCategories.php`;
       axios.get(url).then(resp => {
         this.categories = resp.data.categories;
-        // console.log(resp.data);
       })
     },
 
@@ -92,6 +94,7 @@ export default {
         return;
       }
 
+      this.loading = true;
       const url = `${baseApiUrl}/category/save.php`;
       axios
         .post(url, { name: this.category.name, parentId: this.selectedParentId })
@@ -101,14 +104,16 @@ export default {
             this.$toasted.global.defaultSuccess({ msg: resp.data.message });
             this.reset();
             EventBus.$emit('loadCategory')
+            // document.location.reload(true);
           } else {
             this.$toasted.global.defaultError({ msg: resp.data.message });
           }
+          this.loading = false;
         })
         .catch(showError);
     },
     remove(item) {
-      // console.log(item)
+      this.loading = true;
       const url = `${baseApiUrl}/category/remove.php`;
       axios
         .post(url, { id: item.id })
@@ -120,6 +125,7 @@ export default {
           } else {
             this.$toasted.global.defaultError({ msg: resp.data.message });
           }
+          this.loading = false;
         })
         .catch(showError);
     }
@@ -128,5 +134,12 @@ export default {
 </script>
 
 <style>
+.load-position {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
 </style>
 

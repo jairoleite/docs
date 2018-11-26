@@ -44,7 +44,7 @@ export default {
             const url = `${baseApiUrl}/article/getArticleByCategoryId.php?id=${this.category.id}&page=${this.page}`
             //console.log(url)
             axios.get(url).then(resp => {
-                //console.log(resp.data.articles)
+                console.log(resp.data.articles)
                 this.articles = this.articles.concat(resp.data.articles)
                 this.page++
 
@@ -72,15 +72,15 @@ export default {
 </script>
 
 <style>
-    .articles-by-category ul {
-        list-style-type: none;
-        padding: 0px;
-    }
+.articles-by-category ul {
+  list-style-type: none;
+  padding: 0px;
+}
 
-    .articles-by-category .load-more {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 25px;
-    }
+.articles-by-category .load-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+}
 </style>
